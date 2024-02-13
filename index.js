@@ -1,9 +1,9 @@
 const express = require('express')
 const cors = require("cors")
-
+var bodyParser = require('body-parser')
 const { PORT } = process.env;
 const app = express();
-
+app.use(bodyParser.json());
 app.use(cors());
 
 const todoes = [
@@ -16,7 +16,7 @@ const todoes = [
     todoe: "Müll rausbrigen",
   },
 ];
-
+// GET ANFRAGE
 app.get('/test', (req, res) => {
   res.status(200).json({ profile: { name: "Max"}});});
 
@@ -30,7 +30,13 @@ app.get("/todoe", (req, res) => {
   const userProfile = todoes.find((item) => item.id === todoeId);
   res.json({ todoe: userProfile });
 });
+app.post("/todoe", (req, res) => {
+  const newtodoe = req.body;
 
+  todoes.push(newtodoe);
+
+  res.json({ newtodoe: newtodoe });
+})
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`);
 });
