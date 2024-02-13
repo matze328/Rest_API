@@ -6,7 +6,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const todoes = [
+let todoes = [
   {
     id: 1,
     todoe: "Wäsche waschen",
@@ -30,6 +30,7 @@ app.get("/todoe", (req, res) => {
   const userProfile = todoes.find((item) => item.id === todoeId);
   res.json({ todoe: userProfile });
 });
+// post anfrage
 app.post("/todoe", (req, res) => {
   const newtodoe = req.body;
 
@@ -37,6 +38,32 @@ app.post("/todoe", (req, res) => {
 
   res.json({ newtodoe: newtodoe });
 })
+// Put anfrage
+app.put("/todoe/addtodoe", (req, res) => {
+  const { todoe, userId } = req.body;
+
+  const currenttodoe = todoes.find((item) => item.id === userId);
+  currenttodoe.todoe = todoe;
+
+  const deletedtodoes = todoes.filter((item) => item.id !== userId);
+  deletedtodoes.push(currenttodoe);
+
+  todoes = deletedtodoes;
+
+  res.json({ updatedtodoe: currenttodoe });
+});
+
+// delete anfrage
+app.delete("/todoe", (req, res) => {
+  const { userId } = req.body;
+
+  const deletedtodoes = todoes.filter((item) => item.id !== userId);
+  todoes = deletedtodoes;
+
+  res.json({ deletedUserId: userId });
+});
+
+
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`);
 });
