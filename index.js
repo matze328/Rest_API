@@ -40,7 +40,7 @@ app.post("/todoe", (req, res) => {
 })
 // Put anfrage
 app.put("/todoe/addtodoe", (req, res) => {
-  const { todoe, userId } = req.body;
+  const { todoe, userId } = req.body.todoe;
 
   const currenttodoe = todoes.find((item) => item.id === userId);
   currenttodoe.todoe = todoe;
@@ -55,7 +55,7 @@ app.put("/todoe/addtodoe", (req, res) => {
 
 // delete anfrage
 app.delete("/todoe", (req, res) => {
-  const { userId } = req.body;
+  const { userId } = req.body.todoe;
 
   const deletedtodoes = todoes.filter((item) => item.id !== userId);
   todoes = deletedtodoes;
