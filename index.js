@@ -3,70 +3,12 @@ const cors = require("cors")
 const bodyParser = require('body-parser');
 const { ReasonPhrases, StatusCodes } = require("http-status-codes");
 const { PORT } = process.env;
+const { AppRouter } = require("./src/routes");
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-let todoes = [
-  {
-    id: 1,
-    todoe: "Wäsche waschen",
-  },
-  {
-    id: 2,
-    todoe: "Müll rausbrigen",
-  },
-];
-// GET ANFRAGE
-app.get('/test', (req, res) => {
-  res.status(200).json({ profile: { name: "Max"}});});
-
-app.get('/user', (req, res) => {
-  res.status(200).json({ profile: { firstname: "Max",lastName: "Büscher", adresse: "Hengstenbergweg 2", hobbies: "Downhill"}});});
-app.get('/todoes', (req, res) => {
-    res.status(StatusCodes.OK).json({todoes})
-}),
-app.get("/todoe", (req, res) => {
-  const todoeId = parseInt(req.query.todoeId);
-  if (!todoeId) {
-    res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST);
-    return;
-  }
-  const userProfile = todoes.find((item) => item.id === todoeId);
-  res.status(StatusCodes.OK).json({ todoe: userProfile });
-});
-// post anfrage
-app.post("/todoe", (req, res) => {
-  const newtodoe = req.body;
-
-  todoes.push(newtodoe);
-
-  res.json({ newtodoe: newtodoe });
-})
-// Put anfrage
-app.put("/todoe/addtodoe", (req, res) => {
-  const { todoe, userId } = req.body.todoe;
-
-  const currenttodoe = todoes.find((item) => item.id === userId);
-  currenttodoe.todoe = todoe;
-
-  const deletedtodoes = todoes.filter((item) => item.id !== userId);
-  deletedtodoes.push(currenttodoe);
-
-  todoes = deletedtodoes;
-
-  res.json({ updatedtodoe: currenttodoe });
-});
-
-// delete anfrage
-app.delete("/todoe", (req, res) => {
-  const { userId } = req.body.todoe;
-
-  const deletedtodoes = todoes.filter((item) => item.id !== userId);
-  todoes = deletedtodoes;
-
-  res.json({ deletedUserId: userId });
-});
+app.use("/v1", AppRouter);
 
 
 app.listen(PORT, () => {
