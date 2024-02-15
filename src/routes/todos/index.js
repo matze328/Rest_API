@@ -51,7 +51,8 @@ todosRouter.get("/byuserid", (req, res) => {
     res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST);
     return;
   }
-  res.status(StatusCodes.OK).send("alle todoes von einem Benutzer");
+  const userTodos = todoes.filter((item) => item.userId === userId);
+  res.status(StatusCodes.OK).json(userTodos);
 });
 
 module.exports = { todosRouter };
