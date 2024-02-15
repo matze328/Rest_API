@@ -4,13 +4,17 @@ const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 let todoes = [
   {
     id: 1,
-    todoe: "Wäsche waschen",
-    "done": true
+    userId: 1,
+    task: "Wäsche waschen",
+    isDone: true,
+    dueDate: new Date("2024-03-03")
   },
   {
     id: 2,
-    todoe: "Müll rausbrigen",
-    "done": false
+    userId: 1,
+    task: "Müll rausbrigen",
+    isDone: true,
+    dueDate: new Date("2024-03-03")
   },
 ];
 
@@ -42,6 +46,11 @@ todosRouter.get("/byid", (req, res) => {
   res.status(StatusCodes.OK).json({ todoe: userProfile });
 });
 todosRouter.get("/byuserid", (req, res) => {
+  const userId = parseInt(req.query.userId);
+  if (!userId) {
+    res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST);
+    return;
+  }
   res.status(StatusCodes.OK).send("alle todoes von einem Benutzer");
 });
 
