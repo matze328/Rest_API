@@ -46,7 +46,7 @@ todosRouter.get("/byid", (req, res) => {
   res.status(StatusCodes.OK).json({ todoe: userProfile });
 });
 todosRouter.get("/byuserid", (req, res) => {
-  const userId = parseInt(req.query.userId);
+  const userId = parseInt(req.body.userId);
   if (!userId) {
     res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST);
     return;
@@ -54,5 +54,8 @@ todosRouter.get("/byuserid", (req, res) => {
   const userTodos = todoes.filter((item) => item.userId === userId);
   res.status(StatusCodes.OK).json(userTodos);
 });
+todosRouter.get("/alltodos", (req, res) => {
+  res.status(StatusCodes.OK).send(todoes);
+})
 
 module.exports = { todosRouter };
