@@ -46,7 +46,7 @@ todosRouter.get("/byid", (req, res) => {
   res.status(StatusCodes.OK).json({ todoe: userProfile });
 });
 todosRouter.get("/byuserid", (req, res) => {
-  const userId = parseInt(req.body.userId);
+  const userId = parseInt(req.query.userId);
   if (!userId) {
     res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST);
     return;
