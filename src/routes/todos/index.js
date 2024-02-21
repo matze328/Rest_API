@@ -42,7 +42,7 @@ todosRouter.get("/byid", (req, res) => {
     res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST);
     return;
   }
-  const userProfile = todoes.find((item) => item.id === todoeId);
+  const userProfile = todoes.find((item) => item.id == todoeId);
   res.status(StatusCodes.OK).json({ todoe: userProfile });
 });
 todosRouter.get("/byuserid", (req, res) => {
