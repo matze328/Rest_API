@@ -24,7 +24,8 @@ todosRouter.put("/update", (req, res) => {
   res.status(StatusCodes.OK).send("Todo updaten");
 })
 todosRouter.put("/mark", (req, res) => {
-  res.status(StatusCodes.OK).send("Todo als erledigt makieren");
+  const { id, isDone } = req.body
+  res.status(StatusCodes.OK).json({id, isDone});
 })
 todosRouter.post("/create", (req, res) => {
   const newtodoe = req.body;
