@@ -24,8 +24,14 @@ todosRouter.put("/update", (req, res) => {
   res.status(StatusCodes.OK).send("Todo updaten");
 })
 todosRouter.put("/mark", (req, res) => {
-  const { id, isDone } = req.body
-  res.status(StatusCodes.OK).json({id, isDone});
+  const { id, isDone } = req.body;
+  const todo = todoes.find((item) => item.id == id);
+  todoes.isDone = newIsDone;
+
+  const newTodos = todoes.filter((item) => item.id != id);
+  newTodos.push(todo)
+  todoes = newTodos
+  res.status(StatusCodes.OK).json({newTodos});
 })
 todosRouter.post("/create", (req, res) => {
   const newtodoe = req.body;
